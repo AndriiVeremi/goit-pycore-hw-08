@@ -1,15 +1,18 @@
-from helpers import *
+from helpers import parse_input
 from func_command import *
 from contacts_class import *
+from contacts_data import load_data, save_data
 
 
 def main():
-    book = AddressBook()
+    book = load_data()
+    #book = AddressBook()
     print("Welcome to the assistant bot!")
     while True:
         user_input = input("Enter a command: ")
         command, *args = parse_input(user_input)
         if command in ["close", "exit"]:
+            save_data(book)
             print("Goodbye!")
             break
         elif command == "hello":
