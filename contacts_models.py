@@ -1,5 +1,8 @@
 from collections import UserDict
 from datetime import datetime, timedelta
+from colorama import Fore, Style, init
+
+init(autoreset=True) 
 
 class Field:
     def __init__(self, value):
@@ -15,9 +18,9 @@ class Name(Field):
 class Phone(Field):
     def __init__(self, value):
         if len(value) != 10:
-            raise ValueError("A phone number must be 10 digits long")
+            raise ValueError(f"{Fore.RED}A phone number must be 10 digits long{Fore.RESET}")
         if not value.isdigit():
-            raise ValueError("The phone number must contain only digits")
+            raise ValueError(f"{Fore.RED}The phone number must contain only digits{Fore.RESET}")
         super().__init__(value)
 
 class Birthday(Field):
@@ -25,7 +28,7 @@ class Birthday(Field):
         try:
             self.value = datetime.strptime(value, "%d.%m.%Y")
         except ValueError:
-            raise ValueError("Invalid date format. Use DD.MM.YYYY")
+            raise ValueError(f"{Fore.RED}Invalid date format. Use DD.MM.YYYY{Fore.RESET}")
         
 class Record:
     def __init__(self, name):
@@ -46,19 +49,19 @@ class Record:
         for idx, p in enumerate(self.phones):
             if p.value == old_phone:
                 self.phones[idx] = Phone(new_phone)
-                return f"Phone {old_phone} changed to {new_phone}."        
-        return f"Phone {old_phone} not found."
+                return f"{Fore.GREEN}Phone {old_phone} changed to {new_phone}.{Fore.RESET}"        
+        return f"{Fore.RED}Phone {old_phone} not found.{Fore.RESET}"
          
     def remove_phone(self, phone):
         for idx, p in enumerate(self.phones):
             if p.value == phone:
                 del self.phones[idx]
-                return f"Phone {phone} removed."
-            return f"Phone {phone} not found."    
+                return f"{Fore.GREEN}Phone {phone} removed.{Fore.RESET}"
+            return f"{Fore.RED}Phone {phone} not found.{Fore.RESET}"    
     
     def add_birthday(self, birthday):
         self.birthday = Birthday(birthday)
-        return f"Birthday {birthday} added to contact {self.name.value}."
+        return f"{Fore.GREEN}Birthday {birthday} added to contact {self.name.value}.{Fore.RESET}"
 
     def days_to_birthday(self):
         if self.birthday:
@@ -73,6 +76,7 @@ class Record:
         phones = '; '.join(p.value for p in self.phones)
         birthday = f", birthday: {self.birthday}" if self.birthday else ""
         return f"Contact name: {self.name.value}, phones: {phones}{birthday}"
+    
 
 class AddressBook(UserDict):
     
@@ -97,5 +101,5 @@ class AddressBook(UserDict):
     
     def __str__(self):
         return "\n".join(str(record) for record in self.data.values())
-
     
+   

@@ -3,10 +3,10 @@ def input_error(func):
         try:
             return func(*args, **kwargs)
         except ValueError:
-            return "Give me name and phone please."
+            return f"{Fore.RED}Give me name and phone please.{Fore.RESET}"
         except KeyError:
-            return "Contact does not exist."
+            return f"{Fore.RED}Contact does not exist.{Fore.RESET}"
         except IndexError:
-            return "Please provide contact name or number."
+            return f"{Fore.RED}Please provide contact name or number.{Fore.RESET}"
 
     return inner
