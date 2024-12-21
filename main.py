@@ -6,7 +6,6 @@ from contacts_data import load_data, save_data
 
 def main():
     book = load_data()
-    #book = AddressBook()
     print("Welcome to the assistant bot!")
     while True:
         user_input = input("Enter a command: ")
